@@ -26,7 +26,12 @@
     ],
     "rules": {
         "indent": ["error", 2],
-        "prettier/prettier": "error",
+        "prettier/prettier": [
+          "error",
+          {
+            "endOfLine": "auto"
+          }
+        ],
         "linebreak-style": [0, "unix"],
         "quotes": ["error", "single"],
         "semi": ["error", "never"],
