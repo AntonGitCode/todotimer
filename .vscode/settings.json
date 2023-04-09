@@ -1,0 +1,5 @@
+{
+    "prettier.semi": false,
+    "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
+    "prettier.enable": true
+}
