@@ -20,9 +20,7 @@ function TaskList({ todoData, deleteItem, toogleDone, editLabel, timerPlay, time
       />
     )
   })
-
   const emptyClassName = classNames('todo-list__empty', { hidden: todoData.length })
-
   return (
     <ul className="todo-list">
       {elements}

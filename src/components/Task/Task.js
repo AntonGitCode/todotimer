@@ -40,7 +40,6 @@ const Task = ({
       setEditing((editing) => !editing)
     }
   }
-
   const liClassNames = classNames({ completed: done, active: !done }, { hidden: hidden }, { editing: editing })
   const formClassNames = classNames({ hidden: !editing })
   const timerClassNames = classNames('description', { hidden: timerValue === '00:00' || !timerValue })
