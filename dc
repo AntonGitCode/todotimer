@@ -1,0 +1,47 @@
+[33mcommit 77ad81b215051e00f9ee570de287ea72ecd67e3c[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/todohooks[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mtodohooks[m[33m)[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Fri Apr 28 21:46:32 2023 +0300
+
+    fixed
+
+[33mcommit 2ceac8eae84101a5a791b152dde279efef7278bb[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Fri Apr 28 21:28:39 2023 +0300
+
+    fixed
+
+[33mcommit fbb36906d670771b8208f34025a8f0cf622a57e8[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Fri Apr 28 20:26:25 2023 +0300
+
+    fixed
+
+[33mcommit 83826dc2fbc03707d0ef0b1fe35af7975f918c15[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Fri Apr 28 19:53:07 2023 +0300
+
+    fixed
+
+[33mcommit 3b96ac5743c32188a1f72475dd161d24c5329049[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Fri Apr 28 19:23:23 2023 +0300
+
+    on hooks
+
+[33mcommit d3c74af7cdc9106fb76bbd2739e15cd9eb037577[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Mon Apr 10 00:06:08 2023 +0300
+
+    fixed arrows in number inputs
+
+[33mcommit 4de2f60fe915600febbd57d0ac988e60e7eef958[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Sun Apr 9 18:59:26 2023 +0300
+
+    fixed todo app (timer)
+
+[33mcommit 0b40d519cd2718a8d2aa69c1a0b05f1fa116b47d[m
+Author: Anton Chernetsov <anton.chernetsov@gmail.com>
+Date:   Sun Apr 9 16:52:02 2023 +0300
+
+    again first committ
