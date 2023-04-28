@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
-import Task from '../task/Task'
+import Task from '../task'
 import './TaskList.css'
 
 function TaskList({ todoData, deleteItem, toogleDone, editLabel, timerPlay, timerStop }) {
