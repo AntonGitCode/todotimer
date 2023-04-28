@@ -24,6 +24,16 @@
     "format": "prettier --write src/**/*.{js,css,json} --config ./.prettierrc.json",
     "prepare": "husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:fix"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
