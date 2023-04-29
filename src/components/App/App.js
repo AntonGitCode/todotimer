@@ -73,7 +73,7 @@ const TodoApp = () => {
     setTodos(newArray)
   }
 
-  const clearDone = (items) => {
+  const clearCompleted = (items) => {
     items.forEach((el) => deleteTodo(el.id))
   }
 
@@ -121,16 +121,22 @@ const TodoApp = () => {
   const countDown = (time) => {
     const [strMin, strSec] = time.split(':')
     const min = Number(strMin)
-    const sec = Number(strSec)
+    const sec = Number(strSec) - 1
 
-    if ((min || !min) && sec) {
-      return formatTime(`${min}`, `${sec - 1}`)
-    }
-    if (min && !sec) {
-      return formatTime(`${min - 1}`, '59')
-    }
-    if (!min && !sec) {
-      return false
+    // if ((min || !min) && sec) {
+    //   return formatTime(`${min}`, `${sec - 1}`)
+    // }
+    // if (min && !sec) {
+    //   return formatTime(`${min - 1}`, '59')
+    // }
+    // if (!min && !sec) {
+    //   return false
+    // }
+
+    if (min || sec) {
+      const newMin = sec < 0 ? min - 1 : min
+      const newSec = sec < 0 ? 59 : sec
+      return formatTime(`${newMin}`, `${newSec}`)
     }
   }
 
@@ -186,7 +192,7 @@ const TodoApp = () => {
           timerPlay={timerPlay}
           timerStop={timerStop}
         />
-        <Footer countItems={countItems} clearDone={() => clearDone(doneItems)} filterTodo={filterTodo} />
+        <Footer countItems={countItems} clearCompleted={() => clearCompleted(doneItems)} filterTodo={filterTodo} />
       </section>
     </section>
   )

@@ -5,7 +5,7 @@ import TaskFilter from '../TasksFilter'
 
 import './Footer.css'
 
-const Footer = ({ filterTodo, countItems, clearDone }) => {
+const Footer = ({ filterTodo, countItems, clearCompleted }) => {
   const [filters, setFilters] = useState([
     { label: 'All', id: 1, selected: true },
     { label: 'Active', id: 2, selected: false },
@@ -32,7 +32,7 @@ const Footer = ({ filterTodo, countItems, clearDone }) => {
     <footer className="footer">
       <span className="todo-count">{countItems} items left</span>
       <ul className="filters">{elements}</ul>
-      <button className="clear-completed" onClick={clearDone}>
+      <button className="clear-completed" onClick={clearCompleted}>
         Clear completed
       </button>
     </footer>
@@ -41,12 +41,12 @@ const Footer = ({ filterTodo, countItems, clearDone }) => {
 
 Footer.defaultProps = {
   countItems: 0,
-  clearDone: () => {},
+  clearCompleted: () => {},
 }
 
 Footer.propTypes = {
   countItems: PropTypes.number,
-  clearDone: PropTypes.func,
+  clearCompleted: PropTypes.func,
 }
 
 export default Footer
