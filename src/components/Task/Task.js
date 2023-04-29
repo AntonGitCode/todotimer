@@ -6,14 +6,14 @@ import PropTypes from 'prop-types'
 import './Task.css'
 
 const Task = ({
-  time,
-  label,
+  title,
   id,
-  editLabel,
+  editTitle,
   done,
   hidden,
   toogleDone,
   deleteTodo,
+  time,
   timerValue,
   timerPlay,
   timerStop,
@@ -21,23 +21,19 @@ const Task = ({
   const [value, setValue] = useState('')
   const [editing, setEditing] = useState(false)
 
-  const timeToNow = () => {
-    return formatDistanceToNow(time)
-  }
-
   const onEditForm = () => {
-    setValue(label)
+    setValue(title)
     setEditing((editing) => !editing)
   }
 
-  const labelChange = (e) => {
+  const titleChange = (e) => {
     setValue(e.target.value)
   }
 
   const onEditTask = (e) => {
     e.preventDefault()
     if (value.length) {
-      editLabel(id, value)
+      editTitle(id, value)
       setEditing((editing) => !editing)
     }
   }
@@ -51,19 +47,19 @@ const Task = ({
       <div className="view">
         <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} />
         <label>
-          <span className="title">{label}</span>
+          <span className="title">{title}</span>
           <span className={timerClassNames}>
             <button className="icon icon-play" onClick={timerPlay}></button>
             <button className="icon icon-pause" onClick={timerStop}></button>
             <span className="timer">{timerValue}</span>
           </span>
-          <span className="created">{' ' + timeToNow() + ' ago'}</span>
+          <span className="created">{' ' + formatDistanceToNow(time) + ' ago'}</span>
         </label>
         <button className="icon icon-edit" onClick={onEditForm}></button>
         <button className="icon icon-destroy" onClick={deleteTodo}></button>
       </div>
       <form className={formClassNames} onSubmit={onEditTask}>
-        <input type="text" className="edit" value={value} onChange={labelChange}></input>
+        <input type="text" className="edit" value={value} onChange={titleChange}></input>
       </form>
     </li>
   )
@@ -75,7 +71,7 @@ Task.defaultProps = {
 }
 
 Task.propTypes = {
-  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   done: PropTypes.bool,
   hidden: PropTypes.bool,
