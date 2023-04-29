@@ -5,15 +5,15 @@ import PropTypes from 'prop-types'
 import Task from '../Task/Task'
 import './TaskList.css'
 
-function TaskList({ todoData, deleteItem, toogleDone, editLabel, timerPlay, timerStop }) {
-  const elements = todoData.map(({ id, ...item }) => {
+function TaskList({ todos, deleteTodo, toogleDone, editLabel, timerPlay, timerStop }) {
+  const elements = todos.map(({ id, ...item }) => {
     return (
       <Task
         key={id}
         id={id}
         {...item}
         toogleDone={() => toogleDone(id)}
-        deleteItem={() => deleteItem(id)}
+        deleteTodo={() => deleteTodo(id)}
         editLabel={editLabel}
         timerPlay={() => timerPlay(id)}
         timerStop={() => timerStop(id)}
@@ -21,25 +21,25 @@ function TaskList({ todoData, deleteItem, toogleDone, editLabel, timerPlay, time
     )
   })
 
-  const emptyClassName = classNames('todo-list__empty', { hidden: todoData.length })
+  const emptyClassName = classNames('todo-list__empty', { hidden: todos.length })
 
   return (
     <ul className="todo-list">
       {elements}
-      <li className={emptyClassName}>Todos is empty...</li>
+      <li className={emptyClassName}>Type above to add new todo</li>
     </ul>
   )
 }
 
 TaskList.defaultProps = {
-  deleteItem: () => {},
+  deleteTodo: () => {},
   toogleDone: () => {},
   editLabel: () => {},
 }
 
 TaskList.propTypes = {
-  todoData: PropTypes.array,
-  deleteItem: PropTypes.func,
+  todos: PropTypes.array,
+  deleteTodo: PropTypes.func,
   toogleDone: PropTypes.func,
   editLabel: PropTypes.func,
 }

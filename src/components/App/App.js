@@ -6,29 +6,29 @@ import Footer from '../Footer'
 import NewTaskForm from '../NewTaskForm'
 import TaskList from '../TaskList'
 
-import './TodoApp.css'
+import './App.css'
 
 const TodoApp = () => {
-  const [todoData, setTodoData] = useState([])
+  const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    const prevData = JSON.parse(localStorage.getItem('todoData'))
-    if (prevData) {
-      const result = prevData.map((el) => {
-        return { ...el, time: new Date(el.time) }
+    const prevTodos = JSON.parse(localStorage.getItem('todos'))
+    if (prevTodos) {
+      const result = prevTodos.map((data) => {
+        return { ...data, time: new Date(data.time) }
       })
-      setTodoData(result)
+      setTodos(result)
     }
   }, [])
 
   useEffect(() => {
-    addToLocalStorage(todoData)
-  }, [todoData])
+    addToLocalStorage(todos)
+  }, [todos])
 
-  function createTodoItem(label, timer) {
+  function createTodoItem(label, timerValue) {
     return {
       label,
-      timerValue: timer,
+      timerValue,
       timerOn: false,
       time: new Date(),
       done: false,
@@ -40,48 +40,45 @@ const TodoApp = () => {
   }
 
   const addToLocalStorage = (data) => {
-    localStorage.setItem('todoData', JSON.stringify(data))
+    localStorage.setItem('todos', JSON.stringify(data))
   }
 
-  const editState = (id, key, value) => {
-    const newArray = todoData.map((el) => (el.id === id ? { ...el, [key]: value } : el))
-    setTodoData(newArray)
+  const editTodo = (id, key, value) => {
+    const newArray = todos.map((todo) => (todo.id === id ? { ...todo, [key]: value } : todo))
+    setTodos(newArray)
   }
 
-  const deleteItem = (id) => {
-    setTodoData((prevData) => {
-      const idx = prevData.findIndex((el) => el.id === id)
-      const result = [...prevData.slice(0, idx), ...prevData.slice(idx + 1)]
+  const deleteTodo = (id) => {
+    setTodos((prevTodos) => {
+      const indx = prevTodos.findIndex((el) => el.id === id)
+      const result = [...prevTodos.slice(0, indx), ...prevTodos.slice(indx + 1)]
       return result
     })
   }
 
-  const addItem = (text, timer) => {
-    const newItem = createTodoItem(text, timer)
-    let result = [...todoData, newItem]
-    setTodoData(result)
+  const addItem = (title, timer) => {
+    const newItem = createTodoItem(title, timer)
+    let result = [...todos, newItem]
+    setTodos(result)
   }
 
   const toogleDone = (id) => {
-    const idx = todoData.findIndex((el) => el.id === id)
+    const idx = todos.findIndex((el) => el.id === id)
 
-    const oldItem = todoData[idx]
+    const oldItem = todos[idx]
     const classItem = classNames({ completed: oldItem.class === 'active', active: oldItem.class === 'completed' })
 
     const newItem = { ...oldItem, done: !oldItem.done, class: classItem }
-    const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
-    setTodoData(newArray)
+    const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)]
+    setTodos(newArray)
   }
 
   const clearDone = (items) => {
-    const ids = items.map((el) => el.id)
-    ids.forEach((element) => {
-      deleteItem(element)
-    })
+    items.forEach((el) => deleteTodo(el.id))
   }
 
   const editLabel = (id, newLabel) => {
-    editState(id, 'label', newLabel)
+    editTodo(id, 'label', newLabel)
   }
 
   const filterTodo = (label) => {
@@ -91,28 +88,28 @@ const TodoApp = () => {
       completed: 'Completed',
     }
     if (label === actions.all) {
-      const newArray = todoData.map((el) => (el.hidden ? { ...el, hidden: false } : el))
-      setTodoData(newArray)
+      const newArray = todos.map((el) => (el.hidden ? { ...el, hidden: false } : el))
+      setTodos(newArray)
     }
     if (label === actions.active) {
-      const newArray = todoData.map((el) => {
+      const newArray = todos.map((el) => {
         if (el.class === 'active') {
           return { ...el, hidden: false }
         }
 
         return { ...el, hidden: true }
       })
-      setTodoData(newArray)
+      setTodos(newArray)
     }
     if (label === actions.completed) {
-      const newArray = todoData.map((el) => {
+      const newArray = todos.map((el) => {
         if (el.class === 'active') {
           return { ...el, hidden: true }
         }
 
         return { ...el, hidden: false }
       })
-      setTodoData(newArray)
+      setTodos(newArray)
     }
   }
 
@@ -140,7 +137,7 @@ const TodoApp = () => {
 
   const timer = (id) => {
     const timer = setInterval(() => {
-      setTodoData((prevData) => {
+      setTodos((prevData) => {
         const idx = prevData.findIndex((el) => el.id === id)
         const item = { ...prevData[idx] }
         if (!item.timerOn) {
@@ -157,12 +154,12 @@ const TodoApp = () => {
   }
 
   const toggleTimer = (id, value) => {
-    editState(id, 'timerOn', value)
+    editTodo(id, 'timerOn', value)
   }
 
   const timerPlay = (id) => {
-    const idx = todoData.findIndex((el) => el.id === id)
-    if (!todoData[idx].timerOn) {
+    const idx = todos.findIndex((el) => el.id === id)
+    if (!todos[idx].timerOn) {
       toggleTimer(id, true)
       timer(id)
     }
@@ -171,8 +168,8 @@ const TodoApp = () => {
   const timerStop = (id) => {
     toggleTimer(id, false)
   }
-  const doneItems = todoData.filter((el) => el.done)
-  const countItems = todoData.length - doneItems.length
+  const doneItems = todos.filter((el) => el.done)
+  const countItems = todos.length - doneItems.length
   return (
     <section className="todoapp">
       <header className="header">
@@ -181,9 +178,9 @@ const TodoApp = () => {
       </header>
       <section className="main">
         <TaskList
-          todoData={todoData}
+          todos={todos}
           toogleDone={toogleDone}
-          deleteItem={deleteItem}
+          deleteTodo={deleteTodo}
           editLabel={editLabel}
           timerPlay={timerPlay}
           timerStop={timerStop}

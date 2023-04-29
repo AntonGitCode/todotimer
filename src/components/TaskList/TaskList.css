@@ -96,7 +96,7 @@
 }
 
 .todo-list li label .description .timer {
-  margin-left: 7px;
+  padding-left: 10px;
 }
 
 .todo-list li label .title {

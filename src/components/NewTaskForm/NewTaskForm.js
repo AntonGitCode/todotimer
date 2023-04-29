@@ -52,7 +52,6 @@ const NewTaskForm = ({ formatTime, addItem }) => {
           placeholder="Min"
           value={min}
           onChange={timeChange}
-          autoFocus
         />
       </label>
       <label htmlFor="timer-sec" className="new-todo-form__sec-label">
@@ -63,7 +62,6 @@ const NewTaskForm = ({ formatTime, addItem }) => {
           placeholder="Sec"
           value={sec}
           onChange={timeChange}
-          autoFocus
         />
       </label>
       <button type="submit" />

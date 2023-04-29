@@ -13,7 +13,7 @@ const Task = ({
   done,
   hidden,
   toogleDone,
-  deleteItem,
+  deleteTodo,
   timerValue,
   timerPlay,
   timerStop,
@@ -49,7 +49,7 @@ const Task = ({
   return (
     <li className={liClassNames}>
       <div className="view">
-        <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} />
+        <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} autoFocus />
         <label>
           <span className="title">{label}</span>
           <span className={timerClassNames}>
@@ -57,10 +57,10 @@ const Task = ({
             <button className="icon icon-pause" onClick={timerStop}></button>
             <span className="timer">{timerValue}</span>
           </span>
-          <span className="created">{'created ' + timeToNow() + ' ago'}</span>
+          <span className="created">{' ' + timeToNow() + ' ago'}</span>
         </label>
         <button className="icon icon-edit" onClick={onEditForm}></button>
-        <button className="icon icon-destroy" onClick={deleteItem}></button>
+        <button className="icon icon-destroy" onClick={deleteTodo}></button>
       </div>
       <form className={formClassNames} onSubmit={onEditTask}>
         <input type="text" className="edit" value={value} onChange={labelChange}></input>
