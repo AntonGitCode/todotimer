@@ -1,88 +1,78 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 import './NewTaskForm.css'
 
-export default class NewTaskForm extends Component {
-  state = {
-    title: '',
-    minutes: '',
-    seconds: '',
-    timer: null,
+const NewTaskForm = ({ formatTime, addItem }) => {
+  const [label, setLabel] = useState('')
+  const [min, setMin] = useState('')
+  const [sec, setSec] = useState('')
+
+  const labelChange = (e) => {
+    setLabel(e.target.value)
   }
 
-  onLabelChange = (e) => {
-    if (e.target.value[0] === ' ') {
-      e.target.value = ''
-      e.target.placeholder = 'Type any symbol — not a space'
-    } else e.target.placeholder = 'What needs to be done?'
-    this.setState({
-      title: e.target.value,
-    })
+  const timeChange = (e) => {
+    if (Number(e.target.value) || e.target.value == '') {
+      return e.target.placeholder === 'Min' ? setMin(e.target.value) : setSec(e.target.value)
+    }
   }
 
-  onSecondsChange = (e) => {
-    const regex = /[^0-9]/g
-    this.setState({ seconds: e.target.value.replace(regex, '') })
-  }
-  onMinutesChange = (e) => {
-    const regex = /[^0-9]/g
-    this.setState({ minutes: e.target.value.replace(regex, '') })
-  }
-  onSubmit = (e) => {
+  const submitForm = (e) => {
     e.preventDefault()
-    if (parseInt(this.state.minutes, 10) > 59) {
-      this.setState({ minutes: '' })
-      this.inputMin.focus()
-      return
+    const labelTrim = label.trim()
+
+    if (labelTrim !== '') {
+      const time = min.length || sec.length ? formatTime(min, sec) : false
+      addItem(labelTrim, time)
+      setLabel('')
+      setMin('')
+      setSec('')
     }
-    if (parseInt(this.state.seconds, 10) > 59) {
-      this.setState({ seconds: '' })
-      this.inputSec.focus()
-      return
-    }
-    this.props.addTask(this.state.title, this.state.minutes, this.state.seconds)
-    this.setState({
-      title: '',
-      minutes: '',
-      seconds: '',
-    })
   }
 
-  render() {
-    return (
-      <form className="new-todo-form" onSubmit={this.onSubmit}>
+  return (
+    <form className="new-todo-form" onSubmit={submitForm}>
+      <label htmlFor="new-todo" className="new-todo-form__input-label">
         <input
-          type="text"
+          id="new-todo"
+          name="new-todo"
           className="new-todo"
+          value={label}
           placeholder="What needs to be done?"
-          value={this.state.title}
+          onChange={labelChange}
           autoFocus
-          required
-          onChange={this.onLabelChange}
-        ></input>
+        />
+      </label>
+      <label htmlFor="timer-min" className="new-todo-form__min-label">
         <input
-          type="text"
+          id="timer-min"
+          name="timer-min"
           className="new-todo-form__timer"
-          value={this.state.minutes}
-          onChange={this.onMinutesChange}
           placeholder="Min"
-          ref={(input) => {
-            this.inputMin = input
-          }}
+          value={min}
+          onChange={timeChange}
+          autoFocus
         />
+      </label>
+      <label htmlFor="timer-sec" className="new-todo-form__sec-label">
         <input
-          type="number"
+          id="timer-min"
+          name="timer-min"
           className="new-todo-form__timer"
-          value={this.state.seconds}
-          onChange={this.onSecondsChange}
           placeholder="Sec"
-          required
-          ref={(input) => {
-            this.inputSec = input
-          }}
+          value={sec}
+          onChange={timeChange}
+          autoFocus
         />
-        <button type="submit"></button>
-      </form>
-    )
-  }
+      </label>
+      <button type="submit" />
+    </form>
+  )
 }
+
+NewTaskForm.propTypes = {
+  addItem: PropTypes.func.isRequired,
+}
+
+export default NewTaskForm

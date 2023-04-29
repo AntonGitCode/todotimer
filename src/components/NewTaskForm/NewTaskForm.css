@@ -1,8 +1,6 @@
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+.new-todo-form {
+  display: flex;
+  margin-bottom: 0;
 }
 
 .new-todo,
@@ -24,24 +22,23 @@ input::-webkit-inner-spin-button {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.new-todo, .new-todo-form .new-todo-form__timer {
+.new-todo,
+.new-todo-form .new-todo-form__timer {
   padding: 16px 16px 16px 60px;
   border: none;
   background: rgba(0, 0, 0, 0.003);
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 }
 
-.new-todo-form {
-	display: flex;
-	margin-bottom: 0;
-}
-
-.new-todo {
-	width: 70%;
-}
-
 .new-todo-form .new-todo-form__timer {
-	width: 15%;
-	padding-left: 16px;
+  padding-left: 16px;
 }
 
+.new-todo-form__input-label {
+  width: 70%;
+}
+
+.new-todo-form__min-label, 
+.new-todo-form__sec-label {
+  width: 15%;
+}
