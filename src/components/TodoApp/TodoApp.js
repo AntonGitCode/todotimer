@@ -4,7 +4,7 @@ import TaskList from '../TaskList'
 import NewTaskForm from '../NewTaskForm'
 import Footer from '../Footer'
 
-import './App.css'
+import './TodoApp.css'
 
 export default class App extends Component {
   counter = 1
