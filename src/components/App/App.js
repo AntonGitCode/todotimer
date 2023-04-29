@@ -106,7 +106,6 @@ const TodoApp = () => {
         if (el.class === 'active') {
           return { ...el, hidden: true }
         }
-
         return { ...el, hidden: false }
       })
       setTodos(newArray)
@@ -168,8 +167,10 @@ const TodoApp = () => {
   const timerStop = (id) => {
     toggleTimer(id, false)
   }
+
   const doneItems = todos.filter((el) => el.done)
   const countItems = todos.length - doneItems.length
+
   return (
     <section className="todoapp">
       <header className="header">

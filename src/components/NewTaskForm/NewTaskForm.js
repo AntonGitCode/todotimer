@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 import './NewTaskForm.css'
 
 const NewTaskForm = ({ formatTime, addItem }) => {
-  const [label, setLabel] = useState('')
+  const [title, setTitle] = useState('')
   const [min, setMin] = useState('')
   const [sec, setSec] = useState('')
   const inputRef = useRef(null)
 
-  const labelChange = (e) => {
-    setLabel(e.target.value)
+  const titleChange = (e) => {
+    setTitle(e.target.value)
   }
 
   const timeChange = (e) => {
@@ -20,14 +20,13 @@ const NewTaskForm = ({ formatTime, addItem }) => {
   }
 
   const submitForm = (e) => {
-    inputRef.current.focus()
     e.preventDefault()
-    const labelTrim = label.trim()
+    const titleTrim = title.trim()
 
-    if (labelTrim !== '') {
+    if (titleTrim !== '') {
       const time = min.length || sec.length ? formatTime(min, sec) : false
-      addItem(labelTrim, time)
-      setLabel('')
+      addItem(titleTrim, time)
+      setTitle('')
       setMin('')
       setSec('')
     }
@@ -41,9 +40,9 @@ const NewTaskForm = ({ formatTime, addItem }) => {
           id="new-todo"
           name="new-todo"
           className="new-todo"
-          value={label}
+          value={title}
           placeholder="What needs to be done?"
-          onChange={labelChange}
+          onChange={titleChange}
           ref={inputRef}
           autoFocus
         />
