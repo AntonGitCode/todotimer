@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import './NewTaskForm.css'
@@ -7,6 +7,7 @@ const NewTaskForm = ({ formatTime, addItem }) => {
   const [label, setLabel] = useState('')
   const [min, setMin] = useState('')
   const [sec, setSec] = useState('')
+  const inputRef = useRef(null)
 
   const labelChange = (e) => {
     setLabel(e.target.value)
@@ -19,6 +20,7 @@ const NewTaskForm = ({ formatTime, addItem }) => {
   }
 
   const submitForm = (e) => {
+    inputRef.current.focus()
     e.preventDefault()
     const labelTrim = label.trim()
 
@@ -29,6 +31,7 @@ const NewTaskForm = ({ formatTime, addItem }) => {
       setMin('')
       setSec('')
     }
+    inputRef.current.focus()
   }
 
   return (
@@ -41,6 +44,7 @@ const NewTaskForm = ({ formatTime, addItem }) => {
           value={label}
           placeholder="What needs to be done?"
           onChange={labelChange}
+          ref={inputRef}
           autoFocus
         />
       </label>

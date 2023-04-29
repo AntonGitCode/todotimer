@@ -49,7 +49,7 @@ const Task = ({
   return (
     <li className={liClassNames}>
       <div className="view">
-        <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} autoFocus />
+        <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} />
         <label>
           <span className="title">{label}</span>
           <span className={timerClassNames}>
