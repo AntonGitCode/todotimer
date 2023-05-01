@@ -5,14 +5,14 @@ import PropTypes from 'prop-types'
 import Task from '../Task/Task'
 import './TaskList.css'
 
-function TaskList({ todos, deleteTodo, toogleDone, editTitle, timerPlay, timerStop }) {
+function TaskList({ todos, deleteTodo, toggleDone, editTitle, timerPlay, timerStop }) {
   const elements = todos.map(({ id, ...item }) => {
     return (
       <Task
         key={id}
         id={id}
         {...item}
-        toogleDone={() => toogleDone(id)}
+        toggleDone={() => toggleDone(id)}
         deleteTodo={() => deleteTodo(id)}
         editTitle={editTitle}
         timerPlay={() => timerPlay(id)}
@@ -33,14 +33,14 @@ function TaskList({ todos, deleteTodo, toogleDone, editTitle, timerPlay, timerSt
 
 TaskList.defaultProps = {
   deleteTodo: () => {},
-  toogleDone: () => {},
+  toggleDone: () => {},
   editLabel: () => {},
 }
 
 TaskList.propTypes = {
   todos: PropTypes.array,
   deleteTodo: PropTypes.func,
-  toogleDone: PropTypes.func,
+  toggleDone: PropTypes.func,
   editLabel: PropTypes.func,
 }
 

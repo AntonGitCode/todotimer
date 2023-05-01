@@ -29,8 +29,11 @@ const TodoApp = () => {
 
     if (timersToStart.length > 0) {
       const newIds = timersToStart.map((todo) => {
+        console.log('I am looking for started timers in localStorage')
         return setInterval(() => {
+          console.log('---- I am in setInterval -----')
           setTodos((prevTodos) => {
+            console.log('prevTodos in setInterval , in setTodos ', prevTodos)
             const index = prevTodos.findIndex((t) => t.id === todo.id)
             if (index > -1) {
               const newTodos = [...prevTodos]
@@ -45,12 +48,14 @@ const TodoApp = () => {
           })
         }, 1000)
       })
+      console.log('TIMERS came from localStorage: ', newIds)
       setIntervalIds((prevIds) => [...prevIds, ...newIds])
     }
   }, [todos])
 
   useEffect(() => {
     return () => {
+      console.log('clear this array Intervals:', intervalIds)
       intervalIds.forEach(clearInterval)
     }
   }, [intervalIds])
@@ -88,7 +93,7 @@ const TodoApp = () => {
     setTodos(result)
   }
 
-  const toogleDone = (id) => {
+  const toggleDone = (id) => {
     const idx = todos.findIndex((el) => el.id === id)
 
     const oldTodo = todos[idx]
@@ -102,6 +107,7 @@ const TodoApp = () => {
     console.log('intervalIds[idx]', intervalIds[idx])
 
     if (oldTodo.timerOn) {
+      console.log('\n - in toggleDone clear Interval ', intervalIds[idx])
       clearInterval(intervalIds[idx])
       setIntervalIds((prevIds) => prevIds.filter((id) => id !== intervalIds[idx])) // remove intervalId from intervalIds
     }
@@ -167,6 +173,7 @@ const TodoApp = () => {
   const timerStop = (id) => {
     const index = todos.findIndex((todo) => todo.id === id)
     const todo = todos[index]
+    console.log('\n You press STOP. and we clear interval:', intervalIds[index])
     clearInterval(intervalIds[index])
     const newTodos = [...todos]
     newTodos[index] = { ...todo, timerOn: false }
@@ -180,6 +187,7 @@ const TodoApp = () => {
         const idx = prevData.findIndex((el) => el.id === id)
         const item = { ...prevData[idx] }
         if (!item.timerOn) {
+          console.log('\n\n inside start we clear Interval ?timer', timer)
           clearInterval(timer)
           return prevData
         }
@@ -190,6 +198,7 @@ const TodoApp = () => {
         }
       })
     }, 1000)
+    console.log(' \n timer STARTED :', timer)
   }
 
   const toggleTimer = (id, value) => {
@@ -199,6 +208,7 @@ const TodoApp = () => {
   const timerPlay = (id) => {
     const idx = todos.findIndex((el) => el.id === id)
     if (!todos[idx].timerOn && !todos[idx].done) {
+      console.log('\n you pres START \n')
       toggleTimer(id, true)
       startTimer(id)
     }
@@ -216,7 +226,7 @@ const TodoApp = () => {
       <section className="main">
         <TaskList
           todos={todos}
-          toogleDone={toogleDone}
+          toggleDone={toggleDone}
           deleteTodo={deleteTodo}
           editTitle={editTitle}
           timerPlay={timerPlay}

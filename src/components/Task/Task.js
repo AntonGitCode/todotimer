@@ -11,7 +11,7 @@ const Task = ({
   editTitle,
   done,
   hidden,
-  toogleDone,
+  toggleDone,
   deleteTodo,
   time,
   timerValue,
@@ -45,7 +45,7 @@ const Task = ({
   return (
     <li className={liClassNames}>
       <div className="view">
-        <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} />
+        <input className="toggle" type="checkbox" onClick={toggleDone} defaultChecked={done} />
         <label>
           <span className="title">{title}</span>
           <span className={timerClassNames}>
