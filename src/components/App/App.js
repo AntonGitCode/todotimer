@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -10,19 +10,48 @@ import './App.css'
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([])
+  const isLSLoaded = useRef(false)
 
   useEffect(() => {
     const prevTodos = JSON.parse(localStorage.getItem('todos')) || []
     if (!prevTodos.length) return
+    isLSLoaded.current = true
     const updatedTodos = prevTodos.map((todo) => {
       return { ...todo, time: new Date(todo.time) }
     })
-
     setTodos(updatedTodos)
   }, [])
 
   useEffect(() => {
-    console.log('todos: ', todos)
+    if (isLSLoaded.current) {
+      const prevTodos = JSON.parse(localStorage.getItem('todos')) || []
+
+      const timersToStart = prevTodos.filter((todo) => todo.timerOn)
+      if (timersToStart.length > 0) {
+        timersToStart.forEach((todo) => {
+          clearInterval(todo.timerId)
+          let timerNew = setInterval(() => {
+            setTodos((prevTodos) => {
+              const index = prevTodos.findIndex((t) => t.id === todo.id)
+              if (index > -1) {
+                const newTodos = [...prevTodos]
+                newTodos[index] = {
+                  ...newTodos[index],
+                  time: new Date(newTodos[index].time),
+                  timerValue: countDown(String(newTodos[index].timerValue)),
+                  timerId: timerNew,
+                }
+                return newTodos
+              }
+              return prevTodos
+            })
+          }, 1000)
+          return timerNew
+        })
+      }
+      isLSLoaded.current = false
+    }
+
     localStorage.setItem('todos', JSON.stringify(todos))
   }, [todos])
 
@@ -70,8 +99,9 @@ const TodoApp = () => {
       ? { ...oldTodo, done: !oldTodo.done, class: classItem, timerOn: false }
       : { ...oldTodo, done: !oldTodo.done, class: classItem }
     const newArray = [...todos.slice(0, idx), newTodo, ...todos.slice(idx + 1)]
-    if (oldTodo.timerOn) clearInterval(oldTodo.timerId)
-
+    if (oldTodo.timerOn) {
+      clearInterval(oldTodo.timerId)
+    }
     setTodos(newArray)
   }
 
@@ -137,7 +167,6 @@ const TodoApp = () => {
     if (!todo.timerOn) return
     const newTodos = [...todos]
     newTodos[index] = { ...todo, timerOn: false, timerId: null }
-    console.log('----clear timer in timerStop ---', todo.timerId)
     clearInterval(todo.timerId)
     setTodos(newTodos)
   }
@@ -148,7 +177,6 @@ const TodoApp = () => {
         const idx = prevData.findIndex((el) => el.id === id)
         const item = { ...prevData[idx] }
         if (!item.timerOn) {
-          console.log('внутри startTimer очищаем timer', timer)
           clearInterval(timer)
           return prevData
         }
@@ -156,12 +184,10 @@ const TodoApp = () => {
           item.timerValue = countDown(String(item.timerValue))
           item.timerId = timer
           const newArr = [...prevData.slice(0, idx), item, ...prevData.slice(idx + 1)]
-          console.log('value ', item.timerValue, ' of timer ', item.timerId)
           return newArr
         }
       })
     }, 1000)
-    console.log('---started timer ', timer)
   }
 
   const toggleTimer = (id, value) => {
