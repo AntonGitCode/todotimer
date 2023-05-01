@@ -17,6 +17,18 @@ const TodoApp = () => {
     if (!prevTodos.length) return
     isLSLoaded.current = true
     const updatedTodos = prevTodos.map((todo) => {
+      if (todo.timerOn) {
+        let now = Date.now()
+        let passedSeconds = Math.round((now - todo.timeReal) / 1000)
+        if (passedSeconds && todo.timerValue) {
+          const [strMin, strSec] = todo.timerValue.split(':')
+          let sumSec = Number(strMin) * 60 + Number(strSec)
+          let estimatedSumSec = sumSec - passedSeconds
+          let estimatedMin = Number(strMin) ? Math.floor(estimatedSumSec / 60) : 0
+          let estimatedSec = estimatedSumSec - estimatedMin * 60
+          todo.timerValue = formatTime(`${estimatedMin}`, `${estimatedSec}`)
+        }
+      }
       return { ...todo, time: new Date(todo.time) }
     })
     setTodos(updatedTodos)
@@ -40,6 +52,7 @@ const TodoApp = () => {
                   time: new Date(newTodos[index].time),
                   timerValue: countDown(String(newTodos[index].timerValue)),
                   timerId: timerNew,
+                  timeReal: Date.now(),
                 }
                 return newTodos
               }
@@ -61,6 +74,7 @@ const TodoApp = () => {
       timerValue,
       timerOn: false,
       time: new Date(),
+      timeReal: Date.now(),
       done: false,
       class: 'active',
       hidden: false,
@@ -183,6 +197,7 @@ const TodoApp = () => {
         if (item.timerValue !== '00:00') {
           item.timerValue = countDown(String(item.timerValue))
           item.timerId = timer
+          item.timeReal = Date.now()
           const newArr = [...prevData.slice(0, idx), item, ...prevData.slice(idx + 1)]
           return newArr
         }
