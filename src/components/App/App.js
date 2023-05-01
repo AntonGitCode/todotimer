@@ -102,7 +102,6 @@ const TodoApp = () => {
     console.log('intervalIds[idx]', intervalIds[idx])
 
     if (oldTodo.timerOn) {
-      clearInterval(oldTodo)
       clearInterval(intervalIds[idx])
       setIntervalIds((prevIds) => prevIds.filter((id) => id !== intervalIds[idx])) // remove intervalId from intervalIds
     }
