@@ -169,6 +169,10 @@
   content: '▶';
 }
 
+.icon.inactive:after {
+  filter: grayscale(1);
+}
+
 .todo-list li .edit {
   display: none;
 }

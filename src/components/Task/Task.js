@@ -41,7 +41,7 @@ const Task = ({
   const liClassNames = classNames({ completed: done, active: !done }, { hidden: hidden }, { editing: editing })
   const formClassNames = classNames({ hidden: !editing })
   const timerClassNames = classNames('description', { hidden: timerValue === '00:00' || !timerValue })
-
+  const iconsIsDoneClassnames = classNames({ inactive: done })
   return (
     <li className={liClassNames}>
       <div className="view">
@@ -49,8 +49,8 @@ const Task = ({
         <label>
           <span className="title">{title}</span>
           <span className={timerClassNames}>
-            <button className="icon icon-play" onClick={timerPlay}></button>
-            <button className="icon icon-pause" onClick={timerStop}></button>
+            <button className={`icon icon-play ${iconsIsDoneClassnames}`} onClick={timerPlay}></button>
+            <button className={`icon icon-pause ${iconsIsDoneClassnames}`} onClick={timerStop}></button>
             <span className="timer">{timerValue}</span>
           </span>
           <span className="created">{' ' + formatDistanceToNow(time) + ' ago'}</span>
