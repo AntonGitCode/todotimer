@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Task from '../Task/Task'
 import './TaskList.css'
 
-function TaskList({ todos, deleteTodo, toogleDone, editLabel, timerPlay, timerStop }) {
+function TaskList({ todos, deleteTodo, toogleDone, editTitle, timerPlay, timerStop }) {
   const elements = todos.map(({ id, ...item }) => {
     return (
       <Task
@@ -14,7 +14,7 @@ function TaskList({ todos, deleteTodo, toogleDone, editLabel, timerPlay, timerSt
         {...item}
         toogleDone={() => toogleDone(id)}
         deleteTodo={() => deleteTodo(id)}
-        editLabel={editLabel}
+        editTitle={editTitle}
         timerPlay={() => timerPlay(id)}
         timerStop={() => timerStop(id)}
       />

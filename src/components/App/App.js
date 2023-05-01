@@ -91,11 +91,21 @@ const TodoApp = () => {
   const toogleDone = (id) => {
     const idx = todos.findIndex((el) => el.id === id)
 
-    const oldItem = todos[idx]
-    const classItem = classNames({ completed: oldItem.class === 'active', active: oldItem.class === 'completed' })
+    const oldTodo = todos[idx]
+    const classItem = classNames({ completed: oldTodo.class === 'active', active: oldTodo.class === 'completed' })
 
-    const newItem = { ...oldItem, done: !oldItem.done, class: classItem }
-    const newArray = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)]
+    const newTodo = oldTodo.timerOn
+      ? { ...oldTodo, done: !oldTodo.done, class: classItem }
+      : { ...oldTodo, done: !oldTodo.done, class: classItem, timerOn: false }
+    const newArray = [...todos.slice(0, idx), newTodo, ...todos.slice(idx + 1)]
+    console.log('oldTodo.timerOn ', oldTodo.timerOn)
+    console.log('intervalIds[idx]', intervalIds[idx])
+
+    if (oldTodo.timerOn) {
+      clearInterval(oldTodo)
+      clearInterval(intervalIds[idx])
+      setIntervalIds((prevIds) => prevIds.filter((id) => id !== intervalIds[idx])) // remove intervalId from intervalIds
+    }
     setTodos(newArray)
   }
 
@@ -189,7 +199,7 @@ const TodoApp = () => {
 
   const timerPlay = (id) => {
     const idx = todos.findIndex((el) => el.id === id)
-    if (!todos[idx].timerOn) {
+    if (!todos[idx].timerOn && !todos[idx].done) {
       toggleTimer(id, true)
       startTimer(id)
     }
