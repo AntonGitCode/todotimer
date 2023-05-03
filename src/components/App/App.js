@@ -85,8 +85,12 @@ const TodoApp = () => {
   }
 
   const editTodo = (id, key, value) => {
-    const newArray = todos.map((todo) => (todo.id === id ? { ...todo, [key]: value } : todo))
-    setTodos(newArray)
+    setTodos((prevTodos) => {
+      const indx = prevTodos.findIndex((el) => el.id === id)
+      const updatedTodo = { ...prevTodos[indx], [key]: value }
+      const result = [...prevTodos.slice(0, indx), updatedTodo, ...prevTodos.slice(indx + 1)]
+      return result
+    })
   }
 
   const deleteTodo = (id) => {
