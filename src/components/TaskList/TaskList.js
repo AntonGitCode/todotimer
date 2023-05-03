@@ -1,49 +1,47 @@
 import React from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
-import Task from '../Task'
+import Task from '../Task/Task'
 import './TaskList.css'
 
-function TaskList({ todos, onDeleted, onToggleDone, statusFilter, saveTimer, updateIsRunning }) {
-  let filteredArray = [...todos]
-
-  if (statusFilter === 'active') filteredArray = todos.filter((el) => !el.completed)
-  if (statusFilter === 'completed') filteredArray = todos.filter((el) => el.completed)
-
-  const elements = filteredArray.map((todo) => {
-    const { id } = todo
+function TaskList({ todos, deleteTodo, toggleDone, editTitle, timerPlay, timerStop }) {
+  const elements = todos.map(({ id, ...item }) => {
     return (
       <Task
-        todo={todo}
-        onDeleted={onDeleted}
         key={id}
-        onToggleDone={onToggleDone}
-        saveTimer={saveTimer}
-        updateIsRunning={updateIsRunning}
         id={id}
+        {...item}
+        toggleDone={() => toggleDone(id)}
+        deleteTodo={() => deleteTodo(id)}
+        editTitle={editTitle}
+        timerPlay={() => timerPlay(id)}
+        timerStop={() => timerStop(id)}
       />
     )
   })
 
-  return <ul className="todo-list">{elements}</ul>
-}
+  const emptyClassName = classNames('todo-list__empty', { hidden: todos.length })
 
-TaskList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDeleted: PropTypes.func.isRequired,
-  onToggleDone: PropTypes.func.isRequired,
-  statusFilter: PropTypes.string,
-  saveTimer: PropTypes.func.isRequired,
-  updateIsRunning: PropTypes.func.isRequired,
+  return (
+    <ul className="todo-list">
+      {elements}
+      <li className={emptyClassName}>Type above to add new todo</li>
+    </ul>
+  )
 }
 
 TaskList.defaultProps = {
-  todos: [],
-  statusFilter: 'all',
-  onDeleted: () => {},
-  onToggleDone: () => {},
-  saveTimer: () => {},
-  updateIsRunning: () => {},
+  deleteTodo: () => {},
+  toggleDone: () => {},
+  editLabel: () => {},
+}
+
+TaskList.propTypes = {
+  todos: PropTypes.array,
+  deleteTodo: PropTypes.func,
+  toggleDone: PropTypes.func,
+  editLabel: PropTypes.func,
 }
 
 export default TaskList
